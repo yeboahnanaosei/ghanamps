@@ -23,12 +23,12 @@ func main() {
 	members := make([]Member, 275)
 	c := colly.NewCollector()
 	pageVisitor := colly.NewCollector(colly.Async(true))
-	index := 0
 
 	c.OnHTML("a.square", func(e *colly.HTMLElement) {
 		pageVisitor.Visit(baseURL + "/" + e.Attr("href"))
 	})
 
+	index := 0
 	pageVisitor.OnHTML("div.mpcard", func(e *colly.HTMLElement) {
 		partyDetails := strings.Split(e.ChildText("a > div > center :nth-child(2)"), " (")
 		members[index] = Member{
