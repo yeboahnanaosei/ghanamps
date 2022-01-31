@@ -64,7 +64,8 @@ This will return a JSON array of all the current members of Ghana's parliament. 
 
 ### INSTALLATION (Without Go installed)
 1. Go to the [releases page](https://github.com/yeboahnanaosei/ghanamps/releases) and download the appropriate binary for your system.
-2. Put the binary in your PATH environment variable.
+2. Extract the binary from the zip archive
+3. Put the binary in your PATH environment variable.
     > If you don't know how to do this, here is a useful link to guide you on how to do it: [https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/](https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/)  
 
-3. Launch your command prompt and run `ghanamps`
+4. Launch your command prompt and run `ghanamps`
