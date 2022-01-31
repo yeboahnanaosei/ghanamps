@@ -1,3 +1,5 @@
 members
 *.json
 ghanamps
+ghanamps.exe
+build/
