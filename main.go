@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/gocolly/colly/v2"
@@ -12,15 +14,15 @@ const baseURL string = "https://www.parliament.gh"
 
 type Member struct {
 	Name         string `json:"name"`
-	PartyName    string `json:"partyName"`
-	PartyAbbr    string `json:"partyAbbr"`
+	Party        string `json:"party"`
 	Constituency string `json:"constituency"`
 	Region       string `json:"region"`
 	Photo        string `json:"photo"`
+	Profile      string `json:"profile"`
 }
 
 func main() {
-	members := make([]Member, 275)
+	members := []Member{}
 	c := colly.NewCollector()
 	pageVisitor := colly.NewCollector(colly.Async(true))
 
@@ -28,18 +30,18 @@ func main() {
 		pageVisitor.Visit(baseURL + "/" + e.Attr("href"))
 	})
 
-	index := 0
 	pageVisitor.OnHTML("div.mpcard", func(e *colly.HTMLElement) {
-		partyDetails := strings.Split(e.ChildText("a > div > center :nth-child(2)"), " (")
-		members[index] = Member{
-			Name:         strings.ToUpper(e.ChildText("b.padd")),
-			PartyName:    strings.ToUpper(partyDetails[0]),
-			PartyAbbr:    strings.ToUpper(partyDetails[1][:len(partyDetails[1])-1]),
-			Constituency: strings.ToUpper(e.ChildText("a > div > center b:nth-of-type(2)")),
-			Region:       strings.ToUpper(e.ChildText("a > div > center span:nth-of-type(1)")),
-			Photo:        baseURL + "/" + e.ChildAttr("a > img", "src"),
-		}
-		index++
+		member := Member{}
+		member.Name = strings.TrimSpace(strings.ToUpper(e.ChildText("b.padd")))
+		member.Constituency = strings.TrimSpace(strings.ToUpper(e.ChildText("a > div > center b:nth-of-type(2)")))
+		member.Region = strings.TrimSpace(strings.ToUpper(e.ChildText("a > div > center span:nth-of-type(1)")))
+		member.Photo = strings.TrimSpace(baseURL + "/" + e.ChildAttr("a > img", "src"))
+		member.Party = strings.TrimSpace(e.ChildText("a > div > center :nth-child(2)"))
+		
+		mpNumber := strings.TrimSpace(strings.TrimSuffix(path.Base(member.Photo), path.Ext(member.Photo)))
+		member.Profile = baseURL + fmt.Sprintf("/mps?mp=%s", mpNumber)
+		
+		members = append(members, member)
 	})
 
 	c.Visit(baseURL + "/mps?az")
@@ -47,5 +49,6 @@ func main() {
 
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetEscapeHTML(false)
+	enc.SetIndent(" ", "  ")
 	enc.Encode(members)
 }
