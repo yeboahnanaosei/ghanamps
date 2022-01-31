@@ -1,3 +1,4 @@
 members
 *.json
 build/
+*.zip
