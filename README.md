@@ -8,7 +8,7 @@ You can simply make a request to this URL to get the JSON:
 ### INSTALLATION (With Go already installed)
 If you already have [Go](https://go.dev/) on your machine you can simply install this tool by running: 
 ```bash
-go install github.com/yeboahnanaosei/ghanamps@latest
+go install github.com/yeboahnanaosei/ghanamps/cmd/ghanamps@latest
 ```
 This will install a binary `ghanamps` to the `bin` folder in your `$GOPATH`. You can
 then run the tool by simply issuing a command from your terminal
