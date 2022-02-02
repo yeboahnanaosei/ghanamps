@@ -1,13 +1,13 @@
 all: mac windows linux
 
 mac:
-	env GOARCH=amd64 GOOS=darwin go build -o ./build/mac/ghanamps ./cmd/ghanamps
+	env CGO_ENABLED=0 GOARCH=amd64 GOOS=darwin go build -o ./build/mac/ghanamps ./cmd/ghanamps
 
 windows:
-	env GOARCH=amd64 GOOS=windows go build -o ./build/windows/ghanamps.exe ./cmd/ghanamps
+	env CGO_ENABLED=0 GOARCH=amd64 GOOS=windows go build -o ./build/windows/ghanamps.exe ./cmd/ghanamps
 
 linux:
-	env GOARCH=amd64 GOOS=linux go build -o ./build/linux/ghanamps ./cmd/ghanamps
+	env CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -o ./build/linux/ghanamps ./cmd/ghanamps
 
 dist: all
 	zip -mj ghanamps-mac.zip ./build/mac/ghanamps
