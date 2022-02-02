@@ -25,7 +25,6 @@ const baseURL string = "https://www.parliament.gh"
 
 // Fetch fetches the current members of parliament
 func Fetch() ([]Member, error) {
-	// mux := sync.Mutex{}
 	members := map[string]Member{}
 	payload := []Member{}
 
