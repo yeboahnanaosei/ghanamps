@@ -99,7 +99,7 @@ func main() {
 
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/members", membersHandler)
-	http.HandleFunc("/leaders", leadershipHandler)
+	http.HandleFunc("/leadership", leadershipHandler)
 	log.Println("listening on port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
