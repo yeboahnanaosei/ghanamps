@@ -3,53 +3,32 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
-
-	"github.com/yeboahnanaosei/ghanamps"
 )
 
 func main() {
-	fetchMembers := flag.Bool("members", false, "returns the current members of Ghana's parliament")
-	fetchLeaders := flag.Bool("leaders", false, "returns the current leaders of Ghana's parliament")
+	members := flag.NewFlagSet("members", flag.ExitOnError)
+	party := members.String("party", "", "filter members by party")
+	leadership := flag.NewFlagSet("leadership", flag.ExitOnError)
+	flag.Usage = usage
 	flag.Parse()
 
-	if !*fetchMembers && !*fetchLeaders {
-		fmt.Fprint(os.Stderr, "ghanamps: you will have to specify one of -members or -leaders\n")
-		flag.Usage()
-		os.Exit(1)
-	}
-	if *fetchMembers && *fetchLeaders {
-		fmt.Fprint(os.Stdout, "ghanapms: please specify only one of the flags: members or leaders\n")
-		flag.Usage()
+	if len(os.Args) < 2 {
+		fmt.Fprintf(os.Stderr, "ghanamps: missing subcommand: See `%s -h` for help\n", os.Args[0])
 		os.Exit(1)
 	}
 
-	var payload interface{}
-	var err error
-
-	if *fetchMembers {
-		payload, err = ghanamps.Members()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "ghanamps: error fetching members: %s\n", err)
-			os.Exit(1)
-		}
-	}
-
-	if *fetchLeaders {
-		payload, err = ghanamps.Leaders()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "ghanamps: error fetching leaders: %s\n", err)
-			os.Exit(1)
-		}
-	}
-
-	enc := json.NewEncoder(os.Stdout)
-	enc.SetEscapeHTML(false)
-	enc.SetIndent(" ", "  ")
-	if err := enc.Encode(payload); err != nil {
-		fmt.Fprintf(os.Stderr, "ghanamps: failed to fetch leaders: %s", err)
+	switch os.Args[1] {
+	case "members":
+		members.Parse(os.Args[2:])
+		handleGetMembers(*party)
+	case "leaders":
+		leadership.Parse(os.Args[2:])
+		handleGetLeadership()
+	default:
+		fmt.Fprintf(os.Stderr, "ghanamps: unknown subcommand '%s'. See %s -h\n", os.Args[1], os.Args[0])
+		os.Exit(1)
 	}
 }
