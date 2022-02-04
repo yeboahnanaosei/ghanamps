@@ -32,6 +32,14 @@ EXAMPLES
     Eg 5:  Get all leaders
         ghanamps leaders
 
+AUTHOR
+    Written by Nana Osei Yeboah
+    Email:      yeboahnanaosei@gmail.com
+    Twitter:    https://twitter.com/yeboahnanaosei        
+
+REPORTING BUGS
+    GitHub repo: https://github.com/yeboahnanaosei/ghanamps/issues
+
 `
 
 func usage() {
