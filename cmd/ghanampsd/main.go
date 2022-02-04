@@ -12,6 +12,11 @@ import (
 	"github.com/yeboahnanaosei/ghanamps"
 )
 
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(`{"ok": true, "msg": "Welcome to the ghanamps API. Please use the /members or /leaders endpoint to get the data"}`))
+}
+
 // membersHandler handles the members endpoint. It returns a JSON of the current
 // members of parliament.
 func membersHandler(w http.ResponseWriter, r *http.Request) {
@@ -88,6 +93,7 @@ func main() {
 		port = "8000"
 	}
 
+	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/members", membersHandler)
 	http.HandleFunc("/leaders", leadershipHandler)
 	log.Println("listening on port:", port)
