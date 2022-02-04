@@ -97,4 +97,6 @@ This will return a JSON array of all the current leaders of Ghana's parliament. 
 1. Put the binary in your PATH environment variable and make sure it is executable (Linux & macOS)
     > If you don't know how to do this, here is a useful link to guide you: [https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/](https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/)  
 
-4. Launch your command prompt and run `ghanamps`
+4. Launch your command prompt and run:
+> 1. `ghanamps -members` for all members
+> 2. `ghanamps -leaders` for all leaders
