@@ -1,4 +1,4 @@
-# `ghanamps` A tiny cli and server that returns a JSON of all the members of parliament in Ghana.
+# `ghanamps` A simple cli and server that returns a JSON of all the members of parliament in Ghana.
 
 ### LIVE WEB VERSION
 You can simply make a request to this URL to get the JSON:  
@@ -12,11 +12,12 @@ go install github.com/yeboahnanaosei/ghanamps/cmd/ghanamps@latest
 ```
 This will install a binary `ghanamps` to the `bin` folder in your `$GOPATH`.  
 
-The tool has two (2) flags `-members` for all members and `-leaders` for all the leaders of parliament.  
+The tool has two subcommands `members` for all members and `leaders` for all the leaders of parliament.  
 
+### GET MEMBERS
 To get members you can run the tool by simply issuing the following command from your terminal.
 ```bash
-ghanamps -members
+ghanamps members
 ```
 This will return a JSON array of all the current members of Ghana's parliament. Example below:
 ```json
@@ -65,9 +66,23 @@ This will return a JSON array of all the current members of Ghana's parliament. 
 ]
 ```
 
+To get members of a particular party, you can issue the following command:
+```bash
+ghanamps members -party npp
+```
+
+```bash
+ghanamps members -party ndc
+```
+
+```bash
+ghanamps members -party independent
+```
+
+### GET LEADERS
 To get the leadership of parliament, you can run the tool by simply issuing the following command from your terminal:
 ```bash
-ghanamps -leaders
+ghanamps leaders
 ```
 This will return a JSON array of all the current leaders of Ghana's parliament. Example below:
 ```json
@@ -98,8 +113,9 @@ This will return a JSON array of all the current leaders of Ghana's parliament. 
     > If you don't know how to do this, here is a useful link to guide you: [https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/](https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/)  
 
 4. Launch your command prompt and run:
-> 1. `ghanamps -members` for all members
-> 2. `ghanamps -leaders` for all leaders
+> 1. `ghanamps members` for all members
+> 2. `ghanamps leaders` for all leaders
+> 3. `ghanamps -h` for help
 
 
 ## Want to contribute?
