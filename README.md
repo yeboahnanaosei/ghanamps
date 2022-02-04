@@ -97,7 +97,7 @@ ghanamps members -party ndc
 ghanamps members -party independent
 ```
 
-### GET LEADERS
+### Get leaders
 ---
 To get the leadership of parliament, you can run the tool by simply issuing the following command from your terminal:
 ```bash
