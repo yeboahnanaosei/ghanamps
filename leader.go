@@ -27,7 +27,12 @@ func Leaders() ([]Leader, error) {
 		}
 
 		if len(e.DOM.Contents().Nodes) > 3 {
-			leader.Name = strings.TrimSpace(e.DOM.Contents().Nodes[2].Data)
+			if e.DOM.Contents().Nodes[2].Data == "span" {
+				leader.Name = strings.TrimSpace(e.ChildText("span"))
+			} else {
+				leader.Name = strings.TrimSpace(e.DOM.Contents().Nodes[2].Data)
+			}
+
 			leader.Title = strings.TrimSpace(e.DOM.Contents().Nodes[4].Data)
 		}
 		leader.Photo = baseURL + "/" + e.ChildAttr("img", "src")
