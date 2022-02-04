@@ -100,3 +100,7 @@ This will return a JSON array of all the current leaders of Ghana's parliament. 
 4. Launch your command prompt and run:
 > 1. `ghanamps -members` for all members
 > 2. `ghanamps -leaders` for all leaders
+
+
+## Want to contribute?
+Of course! [Read this](https://github.com/yeboahnanaosei/ghanamps/blob/master/CONTRIBUTING.md)
