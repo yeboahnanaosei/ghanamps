@@ -29,7 +29,7 @@ This will install a binary `ghanamps` to the `bin` folder in your `$GOPATH`.
 
 ## USAGE
 The tool has two subcommands:  
-`members` for handling members
+`members` for handling members  
 `leaders` for handling the leaders
 ### Get members
 ---
@@ -126,4 +126,4 @@ This will return a JSON array of all the current leaders of Ghana's parliament. 
 ```
 
 ## WANT TO CONTRIBUTE?
-Of course! Ideas, suggestions additions are all welcome. [Read this](https://github.com/yeboahnanaosei/ghanamps/blob/master/CONTRIBUTING.md)
+Of course! Ideas, suggestions, additions are all welcome. [Read this](https://github.com/yeboahnanaosei/ghanamps/blob/master/CONTRIBUTING.md)
