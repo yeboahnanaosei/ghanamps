@@ -1,4 +1,4 @@
-# `ghanamps` A tiny web scraper that returns a JSON of all the members of parliament in Ghana.
+# `ghanamps` A tiny cli and server that returns a JSON of all the members of parliament in Ghana.
 
 ### LIVE WEB VERSION
 You can simply make a request to this URL to get the JSON:  
@@ -10,10 +10,13 @@ If you already have [Go](https://go.dev/) on your machine you can simply install
 ```bash
 go install github.com/yeboahnanaosei/ghanamps/cmd/ghanamps@latest
 ```
-This will install a binary `ghanamps` to the `bin` folder in your `$GOPATH`. You can
-then run the tool by simply issuing a command from your terminal
+This will install a binary `ghanamps` to the `bin` folder in your `$GOPATH`.  
+
+The tool has two (2) flags `-members` for all members and `-leaders` for all the leaders of parliament.  
+
+To get members you can run the tool by simply issuing the following command from your terminal.
 ```bash
-ghanamps
+ghanamps -members
 ```
 This will return a JSON array of all the current members of Ghana's parliament. Example below:
 ```json
@@ -58,6 +61,32 @@ This will return a JSON array of all the current members of Ghana's parliament. 
      "photo": "https://www.parliament.gh/epanel/mps/photos/145.jpg",
      "profile": "https://www.parliament.gh/mps?mp=145"
    }
+   ...
+]
+```
+
+To get the leadership of parliament, you can run the tool by simply issuing the following command from your terminal:
+```bash
+ghanamps -leaders
+```
+This will return a JSON array of all the current leaders of Ghana's parliament. Example below:
+```json
+[
+   {
+     "name": "Rt. Hon. Alban Sumana Kingsford Bagbin",
+     "title": "Speaker of Parliament",
+     "photo": "https://www.parliament.gh/epanel/mps/leaders/MrSpeaker.jpg"
+   },
+   {
+     "name": "Hon. Joseph Osei-Owusu",
+     "title": "First Deputy Speaker",
+     "photo": "https://www.parliament.gh/epanel/mps/photos/132.jpg"
+   },
+   {
+     "name": "Hon. Andrew Asiamah Amoako",
+     "title": "Second Deputy Speaker",
+     "photo": "https://www.parliament.gh/epanel/mps/photos/128.jpg"
+   },
    ...
 ]
 ```
