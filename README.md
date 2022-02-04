@@ -1,20 +1,38 @@
 # `ghanamps` A simple cli and server that returns a JSON of all the members of parliament in Ghana.
 
-### LIVE WEB VERSION
+## LIVE WEB VERSION
 You can simply make a request to this URL to get the JSON:  
 [https://ghanamps.herokuapp.com](https://ghanamps.herokuapp.com)  
 
 
-### INSTALLATION (With Go already installed)
+## INSTALLATION
+### Installation with Go installed
+---
 If you already have [Go](https://go.dev/) on your machine you can simply install this tool by running: 
 ```bash
 go install github.com/yeboahnanaosei/ghanamps/cmd/ghanamps@latest
 ```
 This will install a binary `ghanamps` to the `bin` folder in your `$GOPATH`.  
 
-The tool has two subcommands `members` for all members and `leaders` for all the leaders of parliament.  
+### Installation without Go installed
+---
+1. Go to the [releases page](https://github.com/yeboahnanaosei/ghanamps/releases) and download the appropriate binary for your system.
+1. Extract the binary from the zip archive
+1. Put the binary in your PATH environment variable and make sure it is executable (Linux & macOS)
+    > If you don't know how to do this, here is a useful link to guide you: [https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/](https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/)  
 
-### GET MEMBERS
+4. Launch your command prompt and run:
+> 1. `ghanamps members` for all members
+> 2. `ghanamps leaders` for all leaders
+> 3. `ghanamps -h` for help
+
+
+## USAGE
+The tool has two subcommands:  
+`members` for handling members
+`leaders` for handling the leaders
+### Get members
+---
 To get members you can run the tool by simply issuing the following command from your terminal.
 ```bash
 ghanamps members
@@ -80,6 +98,7 @@ ghanamps members -party independent
 ```
 
 ### GET LEADERS
+---
 To get the leadership of parliament, you can run the tool by simply issuing the following command from your terminal:
 ```bash
 ghanamps leaders
@@ -106,17 +125,5 @@ This will return a JSON array of all the current leaders of Ghana's parliament. 
 ]
 ```
 
-### INSTALLATION (Without Go installed)
-1. Go to the [releases page](https://github.com/yeboahnanaosei/ghanamps/releases) and download the appropriate binary for your system.
-1. Extract the binary from the zip archive
-1. Put the binary in your PATH environment variable and make sure it is executable (Linux & macOS)
-    > If you don't know how to do this, here is a useful link to guide you: [https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/](https://zwbetz.com/how-to-add-a-binary-to-your-path-on-macos-linux-windows/)  
-
-4. Launch your command prompt and run:
-> 1. `ghanamps members` for all members
-> 2. `ghanamps leaders` for all leaders
-> 3. `ghanamps -h` for help
-
-
-## Want to contribute?
-Of course! [Read this](https://github.com/yeboahnanaosei/ghanamps/blob/master/CONTRIBUTING.md)
+## WANT TO CONTRIBUTE?
+Of course! Ideas, suggestions additions are all welcome. [Read this](https://github.com/yeboahnanaosei/ghanamps/blob/master/CONTRIBUTING.md)
