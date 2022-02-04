@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path"
 	"strings"
+	"sync"
 
 	"github.com/gocolly/colly"
 )
@@ -23,7 +24,9 @@ type Member struct {
 // baseURL is the base url to the website of Ghana's parliament
 const baseURL string = "https://www.parliament.gh"
 
-// Fetch fetches the current members of parliament
+var mut = sync.Mutex{}
+
+// Fetch fetches the current members of parliament.
 func Fetch() ([]Member, error) {
 	members := map[string]Member{}
 	payload := []Member{}
@@ -47,18 +50,22 @@ func Fetch() ([]Member, error) {
 		memberNumber := strings.TrimSpace(strings.TrimSuffix(path.Base(member.Photo), path.Ext(member.Photo)))
 		member.Profile = baseURL + fmt.Sprintf("/mps?mp=%s", memberNumber)
 
+		mut.Lock()
 		members[memberNumber] = member
+		mut.Unlock()
 		profileVisitor.Visit(member.Profile)
 	})
 
 	profileVisitor.OnHTML("div.fl > table", func(e *colly.HTMLElement) {
 		partyParts := strings.Split(e.ChildText("tr:nth-child(2) > td:nth-child(2)"), "(")
 		memberNumber := e.Request.URL.Query().Get("mp")
+		mut.Lock()
 		member := members[memberNumber]
 		if len(partyParts) > 1 {
 			member.Party = strings.TrimSpace(strings.ToUpper(partyParts[0]))
 			payload = append(payload, member)
 		}
+		mut.Unlock()
 	})
 
 	mainCollector.Visit(baseURL + "/mps?az")
@@ -68,7 +75,6 @@ func Fetch() ([]Member, error) {
 }
 
 // Members is an alias of Fetch.
-// It returns the current members of parliament
 func Members() ([]Member, error) {
 	return Fetch()
 }
