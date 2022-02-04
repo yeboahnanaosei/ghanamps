@@ -1,6 +1,10 @@
 // This is the source code for the ghanamps web server called 'ghanampsd'. It has
 // one endpoint (the index) which returns a JSON array containing the details of
 // all the current members of parliament.
+//
+// Do note that this is a very simple web server. It is not intended to be a
+// production-ready web server. If you want something more robust, you should
+// use the live API at https://ghanamps.herokuapp.com which is much much faster.
 package main
 
 import (
