@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"time"
@@ -18,38 +19,50 @@ type serverResponse struct {
 	Data interface{}
 }
 
+func prepareRequest(method, url string, body io.Reader) (*http.Request, error) {
+	req, err := http.NewRequest(method, url, body)
+	req.Header.Set("User-Agent", userAgent)
+	return req, err
+}
+
 func handleGetMembers(party string) {
 	url := baseURL + "/members"
 	if party != "" {
 		url = baseURL + "/members/" + party
 	}
 
-	resp, err := client.Get(url)
+	req, err := prepareRequest("GET", url, nil)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "ghanamps: error fetching members: %s\n", err)
+		fmt.Fprintf(os.Stderr, "%s: %s\n", command, err)
+		os.Exit(1)
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s: error fetching members: %s\n", command, err)
 		os.Exit(1)
 	}
 	defer resp.Body.Close()
 
 	payload := serverResponse{}
 	if err := json.NewDecoder(resp.Body).Decode(&payload); err != nil {
-		fmt.Fprintf(os.Stderr, "ghanamps: request failed: %s\n", err)
+		fmt.Fprintf(os.Stderr, "%s: request failed: %s\n", command, err)
 		os.Exit(1)
 	}
 
 	if !payload.Ok {
-		fmt.Fprintf(os.Stderr, "ghanamps: request failed: %s\n", payload.Msg)
+		fmt.Fprintf(os.Stderr, "%s: request failed: %s\n", command, payload.Msg)
 		os.Exit(1)
 	}
 
 	if len(payload.Data.([]interface{})) == 0 {
-		fmt.Println("ghanamps: no members found for the given party: " + party)
+		fmt.Fprintf(os.Stdout, "%s: no members found for the given party: "+party, command)
 		os.Exit(0)
 	}
 
 	data, err := json.MarshalIndent(payload.Data, "", "  ")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "ghanamps: %s\n", err)
+		fmt.Fprintf(os.Stderr, "%s: %s\n", command, err)
 		os.Exit(1)
 	}
 	fmt.Println(string(data))
@@ -57,28 +70,33 @@ func handleGetMembers(party string) {
 
 func handleGetLeadership() {
 	url := baseURL + "/leadership"
-
-	resp, err := client.Get(url)
+	req, err := prepareRequest("GET", url, nil)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "ghanamps: error fetching leaders: %s\n", err)
+		fmt.Fprintf(os.Stderr, "%s: %s\n", command, err)
+		os.Exit(1)
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s: error fetching leaders: %s\n", command, err)
 		os.Exit(1)
 	}
 	defer resp.Body.Close()
 
 	payload := serverResponse{}
 	if err := json.NewDecoder(resp.Body).Decode(&payload); err != nil {
-		fmt.Fprintf(os.Stderr, "ghanamps: request failed: %s\n", err)
+		fmt.Fprintf(os.Stderr, "%s: request failed: %s\n", command, err)
 		os.Exit(1)
 	}
 
 	if !payload.Ok {
-		fmt.Fprintf(os.Stderr, "ghanamps: request failed: %s\n", payload.Msg)
+		fmt.Fprintf(os.Stderr, "%s: request failed: %s\n", command, payload.Msg)
 		os.Exit(1)
 	}
 
 	data, err := json.MarshalIndent(payload.Data, "", "  ")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "ghanamps: %s\n", err)
+		fmt.Fprintf(os.Stderr, "%s: %s\n", command, err)
 		os.Exit(1)
 	}
 	fmt.Println(string(data))

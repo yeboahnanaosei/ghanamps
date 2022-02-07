@@ -8,6 +8,17 @@ import (
 	"os"
 )
 
+const command = "ghanamps"
+
+var (
+	// ldflags can be ued to set the version string.
+	version       = "development"
+	arch          = "unknown architecture"
+
+	versionString = fmt.Sprintf("%s version %s %s", command, version, arch)
+	userAgent     = fmt.Sprintf("%s/%s (%s) A cli tool for getting information about Ghana's parliament", command, version, arch)
+)
+
 func main() {
 	members := flag.NewFlagSet("members", flag.ExitOnError)
 	party := members.String("party", "", "filter members by party")
@@ -16,7 +27,7 @@ func main() {
 	flag.Parse()
 
 	if len(os.Args) < 2 {
-		fmt.Fprintf(os.Stderr, "ghanamps: missing subcommand: See `%s -h` for help\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "%s: missing subcommand: See `%s -h` for help\n", command, os.Args[0])
 		os.Exit(1)
 	}
 
@@ -27,8 +38,11 @@ func main() {
 	case "leaders":
 		leadership.Parse(os.Args[2:])
 		handleGetLeadership()
+	case "version":
+		fmt.Fprint(os.Stdout, versionString)
+		os.Exit(0)
 	default:
-		fmt.Fprintf(os.Stderr, "ghanamps: unknown subcommand '%s'. See %s -h\n", os.Args[1], os.Args[0])
+		fmt.Fprintf(os.Stderr, "%s: unknown subcommand '%s'. See %s -h\n", command, os.Args[1], os.Args[0])
 		os.Exit(1)
 	}
 }
